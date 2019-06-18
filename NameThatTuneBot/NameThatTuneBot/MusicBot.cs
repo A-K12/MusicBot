@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NameThatTuneBot.Database;
+using NameThatTuneBot.MusicHandler;
 
 namespace NameThatTuneBot
 {
@@ -8,6 +9,7 @@ namespace NameThatTuneBot
         public MusicBot(IEnumerable<MessengerApi> messengers)
         {
             musicDatabase = new MusicTrackDatabase();
+            musicHandler = new MusicITunesHandler(musicDatabase);
             botBotMediator = new BotMediator(musicDatabase);
             foreach (var messenger in messengers)
             {
@@ -25,6 +27,12 @@ namespace NameThatTuneBot
             botBotMediator.Stop();
         }
 
+        public void AddMusicTracksFromFile(string filePath)
+        {
+            musicHandler.AddTrackFromFile(filePath);
+        }
+
+
         internal void SetBotFacade(IBotMediator botBotMediator)
         {
             this.botBotMediator = botBotMediator;
@@ -36,7 +44,13 @@ namespace NameThatTuneBot
             this.musicDatabase = musicDatabase;
         }
 
+        internal void SetMusicHandler(IMusicHandler musicHandler)
+        {
+            this.musicHandler = musicHandler;
+        }
+
         private IMusicTrackDatabase musicDatabase;
         private IBotMediator botBotMediator;
+        private IMusicHandler musicHandler;
     }
 }

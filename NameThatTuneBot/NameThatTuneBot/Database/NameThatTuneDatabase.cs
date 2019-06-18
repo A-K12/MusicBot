@@ -10,7 +10,7 @@ namespace NameThatTuneBot.Database
     public sealed class NameThatTuneDatabase:DbContext
     {
         private static string Options { get; } =
-            @"Server=(localdb)\mssqllocaldb;Database=MusicDatabase;Trusted_Connection=True;";
+            @"Server=(localdb)\mssqllocaldb;Database=BotDatabase;Trusted_Connection=True;";
 
         
         public NameThatTuneDatabase() 

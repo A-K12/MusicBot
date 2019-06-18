@@ -12,7 +12,6 @@ namespace NameThatTuneBot.MusicHandler
 {
     public class MusicITunesHandler:IMusicHandler
     {
-        private string folderPath;
         public MusicITunesHandler(IMusicTrackDatabase musicDatabase)
         {
             CreateFolder();
@@ -106,7 +105,7 @@ namespace NameThatTuneBot.MusicHandler
         {
             this.musicConverters = musicConverters;
         }
-
+        private string folderPath;
         private const  string FolderName = "MusicTracks";
         private IMusicTrackDatabase musicDatabase;
         private IMusicDownloader musicDownloader;
