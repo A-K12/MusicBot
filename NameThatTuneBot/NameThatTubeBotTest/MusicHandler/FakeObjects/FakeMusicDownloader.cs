@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NameThatTuneBot.Entities;
 using NameThatTuneBot.MusicHandler.Downloader;
 
-namespace BotTest.MusicHandler
+namespace NameThatTubeBotTest.MusicHandler.FakeObjects
 {
     public class FakeMusicDownloader:IMusicDownloader
     {

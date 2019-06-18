@@ -1,6 +1,6 @@
 ﻿using NameThatTuneBot.MusicHandler;
 
-namespace BotTest.MusicHandler
+namespace NameThatTubeBotTest.MusicHandler.FakeObjects
 {
     public class FakeMusicHandler:IMusicHandler
     {

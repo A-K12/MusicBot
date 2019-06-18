@@ -17,6 +17,7 @@ namespace NameThatTuneBot.MessageHandler
 
         public Message GetMainPage(Message message)
         {
+            if (message == null) throw new ArgumentNullException(nameof(message));
             var newMessage = (Message)message.Clone();
             newMessage.BasicText = MessageTextPattern.GetMainPage();
             newMessage.MessageType = MessageType.Simple;
@@ -39,6 +40,8 @@ namespace NameThatTuneBot.MessageHandler
 
         public Message GetSelectPage(Message message, Message pastMessage=null)
         {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+
             var musicTracks = musicDatabase.GetRandomMusicTracksAsync(4).Result;
             var random = new Random();
             var rightAnswer = random.Next(0, 3);
@@ -51,15 +54,19 @@ namespace NameThatTuneBot.MessageHandler
             selectMessage.AdditionalText = GetAnswerText(message, pastMessage);
             selectMessage.BasicText = MessageTextPattern.GetSelectPage(musicTracks);
 
-            return selectMessage; //selectMessage;
+            return selectMessage; 
         }
 
         public Message ReplaceSelectMessage(Message message)
         {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+
             var newMessage = GetSelectPage(message, message);
             newMessage.AdditionalText = message.AdditionalText;
             return newMessage;
         }
+
+
 
         private readonly IMusicTrackDatabase musicDatabase;
     }

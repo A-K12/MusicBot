@@ -1,7 +1,7 @@
 ﻿using NameThatTuneBot.Entities;
 using NameThatTuneBot.MusicHandler.Parser.Interfaces;
 
-namespace BotTest.MusicHandler
+namespace NameThatTubeBotTest.MusicHandler.FakeObjects
 {
     public class MockMusicParser:IMusicParser
     {

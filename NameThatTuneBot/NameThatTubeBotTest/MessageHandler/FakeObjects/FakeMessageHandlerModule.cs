@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NameThatTuneBot;
 
-namespace BotTest.MockObjects
+namespace NameThatTubeBotTest.FakeObjects
 {
     public class FakeMessageHandlerModule: MessageHandlerModule
     {

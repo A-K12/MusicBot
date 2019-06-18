@@ -2,7 +2,7 @@
 using NameThatTuneBot.Entities;
 using NameThatTuneBot.MusicHandler.Converters;
 
-namespace BotTest.MusicHandler
+namespace NameThatTubeBotTest.MusicHandler.FakeObjects
 {
     public class FakeMusicConverter:IMusicConverter
     {

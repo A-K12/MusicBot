@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NameThatTuneBot;
 
-namespace BotTest
+namespace NameThatTubeBotTest
 {
     public class FakeBotMediator:IBotMediator
     {
@@ -16,7 +16,7 @@ namespace BotTest
 
         public Task Send(Message message, MessageHandlerModule module)
         {
-            this.AddedMessage = message;
+            this.AddedMessage = (Message)message.Clone();
             this.Module = module;
             return Task.CompletedTask;
         }

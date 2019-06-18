@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using NameThatTuneBot.Database;
 using NameThatTuneBot.Entities;
 
-namespace BotTest.MockObjects
+namespace NameThatTubeBotTest.FakeObjects
 {
     public class FakeMusicDatabase:IMusicTrackDatabase
     {
@@ -10,11 +11,9 @@ namespace BotTest.MockObjects
         public MusicTrack[] AddedMusicTracks { get; set; }
         public bool ExistenceMusic { get; set; }
 
-        public MusicTrack AddedMusicTrack { get; set; }
-
         public Task AddMusicTracksAsync(MusicTrack[] musicTracks)
         {
-            this.AddedMusicTracks = musicTracks;
+            this.AddedMusicTracks= musicTracks;
             return  Task.CompletedTask;
         }
 
@@ -26,7 +25,8 @@ namespace BotTest.MockObjects
 
         public Task<MusicTrack[]> GetRandomMusicTracksAsync(int numberOfTrack)
         {
-            return Task.FromResult(AddedMusicTracks);
+            var tracks = Enumerable.Repeat<MusicTrack>(MusicTrack, numberOfTrack).ToArray();
+            return Task.FromResult(tracks);
         }
 
         public MusicTrack GetMusicTrack(int trackId)

@@ -18,6 +18,10 @@ namespace NameThatTuneBot.MessageHandler
 
         public UserStates RegisterMessage(Message message)
         {
+            if (message?.User.Id == null || message.User.MessengerClass == null)
+            {
+                throw new ArgumentNullException(nameof(message.User));
+            }
             var id = message.User;
             lock (userStates)
             {
@@ -35,6 +39,11 @@ namespace NameThatTuneBot.MessageHandler
 
         public void SetState(Message message, UserStates states)
         {
+            if (message?.User.Id == null || message.User.MessengerClass == null)
+            {
+                throw new ArgumentNullException(nameof(message.User));
+            }
+
             var id = message.User;
             lock (userStates)
             {
@@ -45,7 +54,7 @@ namespace NameThatTuneBot.MessageHandler
                 }
                 else
                 {
-                    userStates.Add(id, UserStates.FirstLevel);
+                    userStates.Add(id, states);
                 }
             }
         }

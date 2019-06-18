@@ -3,11 +3,17 @@ using NameThatTuneBot;
 using NameThatTuneBot.Entities;
 using Telegram.Bot.Requests;
 
-namespace BotTest.MockObjects
+namespace NameThatTubeBotTest
 {
     public class FakeMessengerApi:MessengerApi
     {
-        public Message receiveMessage;
+        public bool CheckStart { get; set; } = false;
+        public bool CheckStop { get; set; } = false;
+
+        public MessageHandlerModule Module { get; set; }
+
+        public Message AddedMessage { get; set; }
+
         protected override async Task Send(Message message)
         {
             await botMediator.Send(message, this);
@@ -15,17 +21,19 @@ namespace BotTest.MockObjects
 
         public override Task Receive(Message message)
         {
-            this.receiveMessage = message;
+            this.AddedMessage = message;
             return  Task.CompletedTask;
         }
 
         public override Task StartReceivingAsync()
         {
+            this.CheckStart = true;
             return Task.CompletedTask;
         }
 
         public override Task StopReceivingAsync()
         {
+            this.CheckStop = true;
             return Task.CompletedTask;
         }
 

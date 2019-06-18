@@ -17,16 +17,18 @@ namespace NameThatTuneBot
             this.messengers = new Dictionary<Type, MessengerApi>();
             this.messageHandler = new MessageStateMachine(musicDatabase);
             this.messageHandler.AddMediator(this);
+
         }
 
         public async Task Send(Message message, MessageHandlerModule module)
         {
+           
             switch (module)
             {
                 case MessengerApi _:
                     await messageHandler.Receive(message);
                     break;
-                case MessageStateMachine _: 
+                case MessageHandlerModule _: 
                     await messengers[message.User.MessengerClass].Receive(message);
                     break;
             }
@@ -38,7 +40,7 @@ namespace NameThatTuneBot
             this.messengers.Add(messenger.GetType(),messenger);
         }
 
-        public void SetMessageStateMachine(MessageStateMachine messageStateMachine)
+        public void SetMessageStateMachine(MessageHandlerModule messageStateMachine)
         {
             this.messageHandler = messageStateMachine;
         }

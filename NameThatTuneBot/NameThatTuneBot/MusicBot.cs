@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using NameThatTuneBot.Database;
 using NameThatTuneBot.MusicHandler;
+
+[assembly: InternalsVisibleTo("NameThatTubeBotTest")]
 
 namespace NameThatTuneBot
 {
@@ -11,6 +14,7 @@ namespace NameThatTuneBot
             musicDatabase = new MusicTrackDatabase();
             musicHandler = new MusicITunesHandler(musicDatabase);
             botBotMediator = new BotMediator(musicDatabase);
+
             foreach (var messenger in messengers)
             {
                 botBotMediator.AddMessenger(messenger); 
@@ -33,7 +37,7 @@ namespace NameThatTuneBot
         }
 
 
-        internal void SetBotFacade(IBotMediator botBotMediator)
+        internal void SetBotMediator(IBotMediator botBotMediator)
         {
             this.botBotMediator = botBotMediator;
         }

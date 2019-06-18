@@ -1,7 +1,7 @@
 ﻿using NameThatTuneBot;
 using NameThatTuneBot.MessageHandler.Interfaces;
 
-namespace BotTest.MockObjects
+namespace NameThatTubeBotTest.FakeObjects
 {
     public class FakeMessageBuilder:IMessageBuilder
     {

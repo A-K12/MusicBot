@@ -122,10 +122,9 @@ namespace NameThatTuneBot.Messengers
                 Id = e.Message.Chat.Id.ToString(),
                 MessengerClass = typeof(TelegramApi)
             };
-            var message = new Message()
+            var message = new Message(user)
             { 
-                BasicText = e.Message.Text,
-                User= user
+                BasicText = e.Message.Text
             };
             await Send(message);
         }

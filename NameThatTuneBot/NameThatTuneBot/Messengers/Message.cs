@@ -17,18 +17,19 @@ namespace NameThatTuneBot
         public MusicTrack MusicTrack { get; set; }
         public KeyboardTypes KeyboardTypes { get; set; }
 
-        public Message()
+        public Message(User user)
         {
+            this.User = user;
             AdditionalText = "";
             BasicText = "";
         }
 
         public object Clone()
         {
-            return new Message
+            return new Message(this.User)
             {
                 BasicText = this.BasicText, KeyboardTypes = this.KeyboardTypes, MessageType = this.MessageType,
-                MusicTrack = this.MusicTrack, User = this.User
+                MusicTrack = this.MusicTrack
             };
         }
     }

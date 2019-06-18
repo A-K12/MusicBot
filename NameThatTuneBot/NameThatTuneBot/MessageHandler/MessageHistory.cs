@@ -20,7 +20,10 @@ namespace NameThatTuneBot.MessageHandler
 
         public void AddMessage(Message message)
         {
-            if (message == null) throw new ArgumentNullException(nameof(message));
+            if (message?.User.Id == null || message.User.MessengerClass == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
             var id = message.User;
             lock (this.messages)
             {
@@ -37,6 +40,7 @@ namespace NameThatTuneBot.MessageHandler
 
         public Message GetMessage(User user)
         {
+            if(user.Id== null || user.MessengerClass == null) throw new ArgumentNullException(nameof(user));
             lock (messages)
             {
                 if (messages.ContainsKey(user))
@@ -45,7 +49,7 @@ namespace NameThatTuneBot.MessageHandler
                 }
                 else
                 {
-                    throw new Exception("Message doesn't register");
+                    throw new Exception($"The user {user.Id} is not registered");
                 }
             }
         }

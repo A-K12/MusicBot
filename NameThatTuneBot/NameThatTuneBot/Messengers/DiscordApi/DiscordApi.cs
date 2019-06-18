@@ -29,10 +29,9 @@ namespace NameThatTuneBot.Messengers
             {
                 Id = arg.Channel.Id.ToString(), MessengerClass = typeof(DiscordApi)
             };
-            var message = new Message()
+            var message = new Message(user)
             {
-                BasicText = arg.Content,
-                User = user
+                BasicText = arg.Content
             };
             await Send(message);
         }
