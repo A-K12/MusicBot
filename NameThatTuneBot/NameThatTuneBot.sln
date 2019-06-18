@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameThatTuneBot", "NameThat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicBot", "MusicBot\MusicBot.csproj", "{717DFFF8-002F-4F2B-AED7-11F44293DEE6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameThatTubeBotTest", "NameThatTubeBotTest\NameThatTubeBotTest.csproj", "{37B8787B-7873-483A-869A-399FB6392DDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{717DFFF8-002F-4F2B-AED7-11F44293DEE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{717DFFF8-002F-4F2B-AED7-11F44293DEE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{717DFFF8-002F-4F2B-AED7-11F44293DEE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37B8787B-7873-483A-869A-399FB6392DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37B8787B-7873-483A-869A-399FB6392DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37B8787B-7873-483A-869A-399FB6392DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37B8787B-7873-483A-869A-399FB6392DDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
