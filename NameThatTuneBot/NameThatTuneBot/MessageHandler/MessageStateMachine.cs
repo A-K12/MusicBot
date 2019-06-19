@@ -10,6 +10,11 @@ namespace NameThatTuneBot.MessageHandler
 {
     public class MessageStateMachine:MessageHandlerModule
     {
+        private IMessageHistory messageHistory;
+        private IMessageRegister messageRegister;
+        private IMessageBuilder messageBuilder;
+        private IStatisticsManager statisticsManager;
+
         public MessageStateMachine(IMusicTrackDatabase musicDatabase)
         {
             this.messageRegister = new MessageRegister();
@@ -18,12 +23,24 @@ namespace NameThatTuneBot.MessageHandler
             this.statisticsManager = new StatisticsManager();
         }
 
+        public override async Task Receive(Message message)
+        {
+            if (message == null) throw new ArgumentNullException(nameof(message)); ;
+            var newMessage = await HandleMessageAsync(message);
+            await Send(newMessage);
+        }
+
+        protected override async Task Send(Message message)
+        {
+            await botMediator.Send(message, this);
+        }
+
         private async Task<Message> HandleMessageAsync(Message message)
         {
             var state = messageRegister.RegisterMessage(message);
             if (state is UserStates.SecondLevel)
             {
-                return  await SecondLevel(message);
+                return  await Task.Run(()=> SecondLevel(message));
             }
             else
             {
@@ -61,7 +78,7 @@ namespace NameThatTuneBot.MessageHandler
             return message;
         }
 
-        private async Task<Message> SecondLevel(Message message)
+        private Message SecondLevel(Message message)
         {
             if ("Stop the game" == message.BasicText || "!Stop" == message.BasicText)
             {
@@ -90,18 +107,6 @@ namespace NameThatTuneBot.MessageHandler
             return newMessage;
         }
 
-        protected override async Task Send(Message message)
-        {
-           await botMediator.Send(message, this);
-        }
-
-        public override async Task Receive(Message message)
-        {
-            if (message == null) throw new ArgumentNullException(nameof(message)); ;
-            var newMessage = await HandleMessageAsync(message);
-            await Send(newMessage);
-        }
-
         internal void SetMessageRegister(IMessageRegister messageRegister)
         {
             this.messageRegister = messageRegister;
@@ -121,10 +126,5 @@ namespace NameThatTuneBot.MessageHandler
         {
             this.statisticsManager = statisticsManager;
         }
-
-        private IMessageHistory messageHistory;
-        private IMessageRegister messageRegister;
-        private IMessageBuilder messageBuilder;
-        private IStatisticsManager statisticsManager;
     }
 }

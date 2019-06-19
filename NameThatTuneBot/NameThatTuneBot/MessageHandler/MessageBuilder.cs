@@ -25,7 +25,15 @@ namespace NameThatTuneBot.MessageHandler
             return  newMessage;
         }
 
- 
+        public Message ReplaceSelectMessage(Message message)
+        {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+
+            var newMessage = GetSelectPage(message, message);
+            newMessage.AdditionalText = message.AdditionalText;
+            return newMessage;
+        }
+
         public Message GetSelectPage(Message message, Message pastMessage=null)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
@@ -58,15 +66,6 @@ namespace NameThatTuneBot.MessageHandler
             }
         }
 
-
-        public Message ReplaceSelectMessage(Message message)
-        {
-            if (message == null) throw new ArgumentNullException(nameof(message));
-
-            var newMessage = GetSelectPage(message, message);
-            newMessage.AdditionalText = message.AdditionalText;
-            return newMessage;
-        }
 
         public async Task<Message> GetStatisticMessage(Message message)
         {

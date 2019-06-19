@@ -24,19 +24,6 @@ namespace MusicBot
 
             Console.ReadKey();
         }
-
-        private static Keys GetKeys(string path)
-        {
-            if (!File.Exists(path)) throw new FileNotFoundException(nameof(path));
-            string jsonText;
-            using (var r = new StreamReader(path))
-            {
-               jsonText= r.ReadToEnd();
-            }
-
-            return JsonConvert.DeserializeObject<Keys>(jsonText);
-        }
-
         private static void InitializeBot()
         {
             var keys = GetKeys(@".\Keys.json");
@@ -54,6 +41,17 @@ namespace MusicBot
             bot.Start();
             Console.ReadKey();
             bot.Stop();
+        }
+        private static Keys GetKeys(string path)
+        {
+            if (!File.Exists(path)) throw new FileNotFoundException(nameof(path));
+            string jsonText;
+            using (var r = new StreamReader(path))
+            {
+               jsonText= r.ReadToEnd();
+            }
+
+            return JsonConvert.DeserializeObject<Keys>(jsonText);
         }
     }
 }
