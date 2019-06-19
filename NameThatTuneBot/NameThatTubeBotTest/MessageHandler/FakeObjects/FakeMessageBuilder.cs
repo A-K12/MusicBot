@@ -1,4 +1,5 @@
-﻿using NameThatTuneBot;
+﻿using System.Threading.Tasks;
+using NameThatTuneBot;
 using NameThatTuneBot.MessageHandler.Interfaces;
 
 namespace NameThatTubeBotTest.FakeObjects
@@ -25,6 +26,11 @@ namespace NameThatTubeBotTest.FakeObjects
         {
             NewMessage = message;
             return ReturnMessage;
+        }
+
+        public Task<Message> GetStatisticMessage(Message message)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

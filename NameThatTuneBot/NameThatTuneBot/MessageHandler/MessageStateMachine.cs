@@ -15,6 +15,7 @@ namespace NameThatTuneBot.MessageHandler
             this.messageRegister = new MessageRegister();
             this.messageBuilder = new MessageBuilder(musicDatabase);
             this.messageHistory = new MessageHistory();
+            this.statisticsManager = new StatisticsManager();
         }
 
         private async Task<Message> HandleMessageAsync(Message message)
@@ -34,7 +35,7 @@ namespace NameThatTuneBot.MessageHandler
             if ("Start the game" == message.BasicText || "!Start" == message.BasicText)
             {
                 messageRegister.SetState(message, UserStates.SecondLevel);
-                AddUserStatistic(message.User);
+                statisticsManager.AddNewUser(message.User);
                 return GetAndSaveSelectMessage(message);
             }
 
@@ -45,12 +46,6 @@ namespace NameThatTuneBot.MessageHandler
             return GetAndSaveMainMessage(message);
         }
 
-        private async void AddUserStatistic(User user)
-        {
-            var result = await StatisticDatabase.UserTrackExist(user);
-            if(!result)
-                await StatisticDatabase.AddUserStatistics(user);
-        }
 
         private Message GetAndSaveMainMessage(Message message)
         {
@@ -77,7 +72,7 @@ namespace NameThatTuneBot.MessageHandler
             {
                 var pastMessage = messageHistory.GetMessage(message.User);
                 var result = pastMessage.RightAnswer.ToString() == message.BasicText;
-                await StatisticDatabase.UpdateUserStatistics(message.User, result);
+                statisticsManager.UpdateUserStatistics(message.User,result);
                 return GetAndSaveSelectMessage(message,pastMessage);
             }
             if (message.BasicText == "Replace")
@@ -122,8 +117,14 @@ namespace NameThatTuneBot.MessageHandler
             this.messageBuilder = messageBuilder;
         }
 
+        internal void SetStatisticsManager(IStatisticsManager statisticsManager)
+        {
+            this.statisticsManager = statisticsManager;
+        }
+
         private IMessageHistory messageHistory;
         private IMessageRegister messageRegister;
         private IMessageBuilder messageBuilder;
+        private IStatisticsManager statisticsManager;
     }
 }

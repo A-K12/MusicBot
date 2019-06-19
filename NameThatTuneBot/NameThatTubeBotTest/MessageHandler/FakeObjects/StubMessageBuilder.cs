@@ -1,4 +1,5 @@
-﻿using NameThatTuneBot;
+﻿using System.Threading.Tasks;
+using NameThatTuneBot;
 using NameThatTuneBot.MessageHandler.Interfaces;
 
 namespace NameThatTubeBotTest.FakeObjects
@@ -29,6 +30,11 @@ namespace NameThatTubeBotTest.FakeObjects
         public Message ReplaceSelectMessage(Message message)
         {
             return GetMessage(message, "ReplacePage");
+        }
+
+        public Task<Message> GetStatisticMessage(Message message)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
