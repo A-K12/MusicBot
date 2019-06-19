@@ -16,7 +16,7 @@ namespace NameThatTuneBot.MusicHandler
         {
             CreateFolder();
             this.musicDatabase = musicDatabase;
-            musicParser = new MusicParserFacade(folderPath);
+            musicParser = new MusicParserFacade();
             musicDownloader = new MusicDownloaderITunes();
             musicConverters = new IMusicConverter[]
             {

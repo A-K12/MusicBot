@@ -38,5 +38,15 @@ namespace NameThatTubeBotTest.FakeObjects
         {
             return ExistenceMusic;
         }
+
+        public Task UpdateUserStatistics(User user, bool answerType)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task AddUserStatistics(User user)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

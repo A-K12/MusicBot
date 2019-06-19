@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.IO;
 using NameThatTubeBotTest.FakeObjects;
 using NameThatTuneBot;
+using NameThatTuneBot.Entities;
 using NameThatTuneBot.MessageHandler;
 using NameThatTuneBot.Messengers;
 using NUnit.Framework;
@@ -18,7 +19,7 @@ namespace NameThatTubeBotTest
         public void AddMessage_WhenCall_AddsMessageToDictionary()
         {
             var messageHistory = new MessageHistory();
-            var user = new User {Id = "123456", MessengerClass = this.GetType()};
+            var user = new User {ChatId = "123456", MessengerClass = nameof(FakeMessengerApi)};
             var message = new Message(user) {BasicText = "Test"};
 
             messageHistory.AddMessage(message);
@@ -31,13 +32,13 @@ namespace NameThatTubeBotTest
         public void GetMessage_UnknownUser_TrowsException()
         {
             var messageHistory = new MessageHistory();
-            var user = new User { Id = "123456", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "123456", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user) { BasicText = "Test"};
 
             var ex = Assert.Catch<Exception>(() => messageHistory.GetMessage(user));
             
 
-            StringAssert.Contains($"The user {user.Id} is not registered", ex.Message );
+            StringAssert.Contains($"The user {user.ChatId} is not registered", ex.Message );
         }
 
 
@@ -45,7 +46,7 @@ namespace NameThatTubeBotTest
         public void GetMessage_EmptyUser_TrowsException()
         {
             var messageHistory = new MessageHistory();
-            var user = new User { Id = null, MessengerClass = null};
+            var user = new User { ChatId = null, MessengerClass = null};
 
             var ex = Assert.Catch<Exception>(() => messageHistory.GetMessage(user));
 
@@ -68,7 +69,7 @@ namespace NameThatTubeBotTest
         public void AddMessage_EmptyUser_TrowsException()
         {
             var messageHistory = new MessageHistory();
-            var user = new User { Id = null, MessengerClass = null };
+            var user = new User { ChatId = null, MessengerClass = null };
             var message = new Message(user) { BasicText = "Test" };
 
             var ex = Assert.Catch<Exception>(() => messageHistory.AddMessage(message));

@@ -4,7 +4,7 @@ using NameThatTuneBot.Entities;
 
 namespace NameThatTuneBot
 {
-    static class MessageTextPattern
+    static class MessageTextPatterns
     {
 
         public static string GetSelectPage(MusicTrack[] musicTracks)
@@ -49,6 +49,16 @@ namespace NameThatTuneBot
         public static string GetMainPage()
         {
             return "Игра \"Угадай песню за 10 секунд\"!!!:";
+        }
+
+        public static string GetStatisticPage(int wrongAnswer, int correctAnswers)
+        {
+            return $"Вы ответили:\n Верно - {correctAnswers}!\n Неверно - {wrongAnswer}!";
+        }
+
+        public static string GetEmptyStatisticPage()
+        {
+            return $"Вы еще не играли :(";
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NameThatTubeBotTest.FakeObjects;
 using NameThatTuneBot;
+using NameThatTuneBot.Entities;
 using NameThatTuneBot.MessageHandler;
 using NameThatTuneBot.Messengers;
 using NUnit.Framework;
@@ -36,10 +37,10 @@ namespace NameThatTubeBotTest
             var fakeRegister = new FakeMessageRegister();
             var fakeHistory = new FakeMessageHistory();
             messageHandler.SetMessageBuilder(stubMessageBuilder);
-            messageHandler.AddMediator(fakeMediator);
+            messageHandler.SetMediator(fakeMediator);
             fakeRegister.UserState = userStates;
             messageHandler.SetMessageRegister(fakeRegister);
-            var user = new User { Id = "12345", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "12345", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user) { BasicText = text };
             var pastMessage= new Message(user) { BasicText = "HistoryPage"};
             fakeHistory.ReturnMessage = pastMessage;

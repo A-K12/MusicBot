@@ -10,7 +10,7 @@ namespace NameThatTuneBot
     {
         protected IBotMediator botMediator;
 
-        internal void AddMediator(IBotMediator botMediator)
+        internal void SetMediator(IBotMediator botMediator)
         {
             this.botMediator = botMediator;
         }

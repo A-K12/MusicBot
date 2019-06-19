@@ -9,20 +9,19 @@ namespace NameThatTuneBot
 {
     public class BotMediator:IBotMediator
     {
-        private Dictionary<Type, MessengerApi> messengers;
+        private Dictionary<string, MessengerApi> messengers;
         private MessageHandlerModule messageHandler;
 
         public BotMediator(IMusicTrackDatabase musicDatabase)
         {
-            this.messengers = new Dictionary<Type, MessengerApi>();
+            this.messengers = new Dictionary<string, MessengerApi>();
             this.messageHandler = new MessageStateMachine(musicDatabase);
-            this.messageHandler.AddMediator(this);
+            this.messageHandler.SetMediator(this);
 
         }
 
         public async Task Send(Message message, MessageHandlerModule module)
         {
-           
             switch (module)
             {
                 case MessengerApi _:
@@ -36,13 +35,8 @@ namespace NameThatTuneBot
 
         public void AddMessenger(MessengerApi messenger)
         {
-            messenger.AddMediator(this);
-            this.messengers.Add(messenger.GetType(),messenger);
-        }
-
-        public void SetMessageStateMachine(MessageHandlerModule messageStateMachine)
-        {
-            this.messageHandler = messageStateMachine;
+            messenger.SetMediator(this);
+            this.messengers.Add(messenger.GetType().Name,messenger);
         }
 
         public async  void Start()
@@ -51,6 +45,10 @@ namespace NameThatTuneBot
             {
                 await messenger.Value.StartReceivingAsync();
             }
+        }
+        internal void SetMessageStateMachine(MessageHandlerModule messageStateMachine)
+        {
+            this.messageHandler = messageStateMachine;
         }
 
         internal void SetStateMachine(MessageHandlerModule stateMachine)

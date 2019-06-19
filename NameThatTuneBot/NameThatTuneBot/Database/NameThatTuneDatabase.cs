@@ -12,7 +12,10 @@ namespace NameThatTuneBot.Database
         private static string Options { get; } =
             @"Server=(localdb)\mssqllocaldb;Database=BotDatabase;Trusted_Connection=True;";
 
-        
+        private static string Options1 { get; } =
+            @"Server=.\SQLEXPRESS;Database=NameThatTuneBot;Trusted_Connection=True;";
+
+
         public NameThatTuneDatabase() 
         {
             Database.EnsureCreated();
@@ -25,6 +28,9 @@ namespace NameThatTuneBot.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<UserStatistics>().HasKey(u => u.Id);
+            modelBuilder.Entity<UserStatistics>().Property(u => u.Id).ValueGeneratedNever();
             modelBuilder.Entity<MusicTrack>().HasKey(u => u.Id);
             modelBuilder.Entity<MusicTrack>().Property(u => u.Id).ValueGeneratedNever();
             modelBuilder.Entity<MusicVersion>().HasKey(u => u.Id);
@@ -32,5 +38,7 @@ namespace NameThatTuneBot.Database
 
         internal DbSet<MusicTrack> MusicTrack { get; set; }
         internal DbSet<MusicVersion> MusicVersions { get; set; }
+        internal DbSet<User> Users { get; set; }
+        internal DbSet<UserStatistics> UserStatistics { get; set; }
     }
 }

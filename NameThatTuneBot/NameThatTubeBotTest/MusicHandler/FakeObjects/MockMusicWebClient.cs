@@ -1,14 +1,18 @@
-﻿using NameThatTuneBot.MusicHandler.Parser;
+﻿using System.IO;
+using NameThatTuneBot.MusicHandler.Parser;
 using NameThatTuneBot.MusicHandler.Parser.Interfaces;
 
 namespace NameThatTubeBotTest.MusicHandler.FakeObjects
 {
     public class MockMusicWebClient:IMusicWebClient
     {
-        public  string Response { get; set; }
+        public  string JsonPath { get; set; }
         public string GetResponse(AddressITunesConstructor address)
         {
-            return Response;
+            using (var r = new StreamReader(JsonPath))
+            {
+                return r.ReadToEnd();
+            }
         }
     }
 }

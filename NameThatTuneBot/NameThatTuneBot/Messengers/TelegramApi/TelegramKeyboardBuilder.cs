@@ -25,6 +25,10 @@ namespace NameThatTuneBot.Messengers
                         {
                             new KeyboardButton("Start the game")
                         },
+                        new []
+                        {
+                            new KeyboardButton("Game statistics")
+                        },
                     });
         }
 

@@ -9,7 +9,7 @@ using NameThatTuneBot.Entities;
 
 namespace NameThatTuneBot.Database
 {
-    public class MusicTrackDatabase:IMusicTrackDatabase
+    public class MusicTrackDatabase : IMusicTrackDatabase
     {
         public MusicTrackDatabase()
         {
@@ -24,7 +24,7 @@ namespace NameThatTuneBot.Database
             {
                 try
                 {
-                   await AddMusicTrackAsync(musicTrack);
+                    await AddMusicTrackAsync(musicTrack);
                 }
                 catch (Exception e)
                 {
@@ -36,20 +36,22 @@ namespace NameThatTuneBot.Database
         public async Task AddMusicTrackAsync(MusicTrack musicTrack)
         {
             if (musicTrack?.MusicVersions == null) throw new ArgumentNullException(nameof(musicTrack));
-            
+
             using (var dataBase = new NameThatTuneDatabase())
             {
                 if (await dataBase.MusicTrack.AnyAsync(o => o.Id == musicTrack.Id))
                 {
                     throw new Exception($"Track {musicTrack.NameArtist} - {musicTrack.NameTrack} already exists");
-                };
+                }
+
+                ;
                 var musicVersions = musicTrack.MusicVersions.ToArray();
                 musicTrack.MusicVersions = null;
                 await dataBase.MusicTrack.AddAsync(musicTrack);
                 await dataBase.SaveChangesAsync();
                 await dataBase.MusicVersions.AddRangeAsync(musicVersions);
                 await dataBase.SaveChangesAsync();
-                Console.Out.WriteLine("DB: Track {0} added", musicTrack.NameArtist+"-"+musicTrack.NameTrack);
+                Console.Out.WriteLine("DB: Track {0} added", musicTrack.NameArtist + "-" + musicTrack.NameTrack);
             }
         }
 
@@ -60,18 +62,15 @@ namespace NameThatTuneBot.Database
 
         private MusicTrack[] GetRandomMusicTracks(int numberOfTrack)
         {
-            System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
-            myStopwatch.Start();
             using (var dataBase = new NameThatTuneDatabase())
             {
                 var musicTracks = dataBase.MusicTrack.OrderBy(x => Guid.NewGuid()).Take(numberOfTrack).ToList();
                 foreach (var musicTrack in musicTracks)
                 {
-                    dataBase.MusicVersions.Where(mv=>mv.MusicTrackId==musicTrack.Id).Load();
+                    dataBase.MusicVersions.Where(mv => mv.MusicTrackId == musicTrack.Id).Load();
                 }
+
                 //OrderBy(x => Guid.NewGuid()).Include(t => t.MusicVersions)
-                myStopwatch.Stop();
-                Console.Out.WriteLine("DATABASE = {0}", myStopwatch.ElapsedMilliseconds);//остановить
                 return musicTracks.ToArray();
             }
 
@@ -81,8 +80,7 @@ namespace NameThatTuneBot.Database
         {
             using (var dataBase = new NameThatTuneDatabase())
             {
-                return dataBase.MusicTrack.Include(t => t.MusicVersions).
-                        SingleOrDefault(m => m.Id == trackId);
+                return dataBase.MusicTrack.Include(t => t.MusicVersions).SingleOrDefault(m => m.Id == trackId);
             }
         }
 
@@ -93,5 +91,6 @@ namespace NameThatTuneBot.Database
                 return dataBase.MusicTrack.Any(mt => mt.Id == musicTrack.Id);
             }
         }
+
     }
 }

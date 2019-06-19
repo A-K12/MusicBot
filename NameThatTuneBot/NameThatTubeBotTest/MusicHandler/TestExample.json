@@ -1,0 +1,12 @@
+{
+  "resultCount": 1,
+  "results": [
+    {
+      "kind": "song",
+      "trackId": 1095623878,
+      "artistName": "artistName",
+      "trackName": "trackName",
+      "previewUrl": "previewUrl"
+    }
+  ]
+}

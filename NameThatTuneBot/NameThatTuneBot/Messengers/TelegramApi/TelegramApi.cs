@@ -119,8 +119,8 @@ namespace NameThatTuneBot.Messengers
             
             var user = new User
             {
-                Id = e.Message.Chat.Id.ToString(),
-                MessengerClass = typeof(TelegramApi)
+                ChatId = e.Message.Chat.Id.ToString(),
+                MessengerClass = nameof(TelegramApi)
             };
             var message = new Message(user)
             { 
@@ -135,11 +135,11 @@ namespace NameThatTuneBot.Messengers
             var textMessage = message.AdditionalText + message.BasicText;
             if (message.MessageType == MessageType.Music)
             {
-                await SendMusicMessageAsync(message.User.Id, textMessage, message.MusicTrack, message.KeyboardTypes);
+                await SendMusicMessageAsync(message.User.ChatId, textMessage, message.MusicTrack, message.KeyboardTypes);
             }
             else
             {
-                await SendSimpleMessageAsync(message.User.Id, textMessage , message.KeyboardTypes);
+                await SendSimpleMessageAsync(message.User.ChatId, textMessage , message.KeyboardTypes);
             }
            
         }

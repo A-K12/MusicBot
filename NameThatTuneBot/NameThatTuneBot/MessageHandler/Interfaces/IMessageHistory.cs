@@ -1,4 +1,5 @@
-﻿using NameThatTuneBot.Messengers;
+﻿using NameThatTuneBot.Entities;
+using NameThatTuneBot.Messengers;
 
 namespace NameThatTuneBot.MessageHandler.Interfaces
 {

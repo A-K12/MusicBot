@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Text;
 using NameThatTubeBotTest.FakeObjects;
 using NameThatTuneBot;
+using NameThatTuneBot.Entities;
 using NameThatTuneBot.MessageHandler;
 using NameThatTuneBot.Messengers;
 using NUnit.Framework;
@@ -23,7 +24,7 @@ namespace NameThatTubeBotTest
 
         private Message GetTestMessage(string id, string text)
         {
-            var user = new User {Id = id, MessengerClass = typeof(FakeMessengerApi)};
+            var user = new User {ChatId = id, MessengerClass = nameof(FakeMessengerApi)};
             return new Message(user) {BasicText = text};
         }
 

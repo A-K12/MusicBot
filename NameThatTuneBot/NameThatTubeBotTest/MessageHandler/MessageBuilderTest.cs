@@ -20,9 +20,9 @@ namespace NameThatTubeBotTest
         {
             var fakeDatabase = new FakeMusicDatabase { MusicTrack = track };
             var messageBuilder = new MessageBuilder(fakeDatabase);
-            var user = new User { Id = "123456", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "123456", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user) { BasicText = "Test" };
-            var mainPageText = MessageTextPattern.GetMainPage();
+            var mainPageText = MessageTextPatterns.GetMainPage();
 
             var newMessage = messageBuilder.GetMainPage(message);
 
@@ -34,9 +34,9 @@ namespace NameThatTubeBotTest
         {
             var fakeDatabase = new FakeMusicDatabase { MusicTrack = track };
             var messageBuilder = new MessageBuilder(fakeDatabase);
-            var user = new User { Id = "123456", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "123456", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user) { BasicText = "Test" };
-            var startText = MessageTextPattern.GetStartMessage();
+            var startText = MessageTextPatterns.GetStartMessage();
 
             var newMessage = messageBuilder.GetSelectPage(message);
 
@@ -49,9 +49,9 @@ namespace NameThatTubeBotTest
         {
             var fakeDatabase = new FakeMusicDatabase { MusicTrack = track };
             var messageBuilder = new MessageBuilder(fakeDatabase);
-            var user = new User { Id = "12345", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "12345", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user) { BasicText = answer, RightAnswer = rightAnswer };
-            var resultText = MessageTextPattern.GetResultMessage(expectedResult);
+            var resultText = MessageTextPatterns.GetResultMessage(expectedResult);
 
             var newMessage = messageBuilder.GetSelectPage(message, message);
 
@@ -63,7 +63,7 @@ namespace NameThatTubeBotTest
         {
             var fakeDatabase = new FakeMusicDatabase { MusicTrack = track };
             var messageBuilder = new MessageBuilder(fakeDatabase);
-            var user = new User { Id = "12345", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "12345", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user)
             {
                 AdditionalText = "Past Answer",

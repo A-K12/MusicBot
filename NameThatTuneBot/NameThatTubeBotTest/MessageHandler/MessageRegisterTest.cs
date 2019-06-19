@@ -1,5 +1,6 @@
 ﻿using System;
 using NameThatTuneBot;
+using NameThatTuneBot.Entities;
 using NameThatTuneBot.MessageHandler;
 using NameThatTuneBot.Messengers;
 using NUnit.Framework;
@@ -13,7 +14,7 @@ namespace NameThatTubeBotTest
         public void RegisterMessage_UnknownMessage_ReturnsFirstLevelState()
         {
             var messageRegister = new MessageRegister();
-            var user = new User { Id = "123456", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "123456", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user) { BasicText = "Test" };
 
             var states = messageRegister.RegisterMessage(message);
@@ -25,7 +26,7 @@ namespace NameThatTubeBotTest
         public void SetState_UnknownUser_SetStateToUser()
         {
             var messageRegister = new MessageRegister();
-            var user = new User { Id = "123456", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "123456", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user) { BasicText = "Test" };
 
             messageRegister.SetState(message, UserStates.SecondLevel);
@@ -38,7 +39,7 @@ namespace NameThatTubeBotTest
         public void GetState_WhenCall_SetStateToUser()
         {
             var messageRegister = new MessageRegister();
-            var user = new User { Id = "123456", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "123456", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user) { BasicText = "Test" };
             messageRegister.RegisterMessage(message);
 
@@ -53,7 +54,7 @@ namespace NameThatTubeBotTest
         public void GetState_UnknownMessage_ThrowException()
         {
             var messageRegister = new MessageRegister();
-            var user = new User { Id = "123456", MessengerClass = this.GetType() };
+            var user = new User { ChatId = "123456", MessengerClass = nameof(FakeMessengerApi) };
             var message = new Message(user) { BasicText = "Test" };
 
             var ex = Assert.Catch<Exception>(() => messageRegister.GetState(message));
@@ -67,7 +68,7 @@ namespace NameThatTubeBotTest
         public void RegisterMessage_EmptyUser_TrowsException()
         {
             var messageRegister = new MessageRegister();
-            var user = new User { Id = "null", MessengerClass = null };
+            var user = new User { ChatId = "null", MessengerClass = null };
             var message = new Message(user) { BasicText = "Test" };
 
             var ex = Assert.Catch<Exception>(() => messageRegister.RegisterMessage(message));
@@ -79,7 +80,7 @@ namespace NameThatTubeBotTest
         public void SetState_EmptyUser_TrowsException()
         {
             var messageRegister = new MessageRegister();
-            var user = new User { Id = "null", MessengerClass = null };
+            var user = new User { ChatId = "null", MessengerClass = null };
             var message = new Message(user) { BasicText = "Test" };
 
             var ex = Assert.Catch<Exception>(() => messageRegister.SetState(message,UserStates.SecondLevel));
@@ -90,7 +91,7 @@ namespace NameThatTubeBotTest
         public void GetState_EmptyUser_TrowsException()
         {
             var messageRegister = new MessageRegister();
-            var user = new User { Id = "null", MessengerClass = null };
+            var user = new User { ChatId = "null", MessengerClass = null };
             var message = new Message(user) { BasicText = "Test" };
 
             var ex = Assert.Catch<Exception>(() => messageRegister.GetState(message));

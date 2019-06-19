@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Discord;
 using NameThatTuneBot.Database;
+using NameThatTuneBot.Entities;
 using NameThatTuneBot.MessageHandler.Interfaces;
 
 namespace NameThatTuneBot.MessageHandler
@@ -17,30 +19,37 @@ namespace NameThatTuneBot.MessageHandler
 
         private async Task<Message> HandleMessageAsync(Message message)
         {
-           return await Task.Run(() => HandleMessage(message));
-        }
-        private  Message  HandleMessage(Message message)
-        {
             var state = messageRegister.RegisterMessage(message);
             if (state is UserStates.SecondLevel)
             {
-
-                return SecondLevel(message);
+                return  await SecondLevel(message);
             }
             else
             {
-                return FirstLevel(message);
+                return await FirstLevel(message);
+            }
+        }
+        private async Task<Message> FirstLevel(Message message)
+        {
+            if ("Start the game" == message.BasicText || "!Start" == message.BasicText)
+            {
+                messageRegister.SetState(message, UserStates.SecondLevel);
+                AddUserStatistic(message.User);
+                return GetAndSaveSelectMessage(message);
             }
 
-        }
-        private Message FirstLevel(Message message)
-        {
-            if ("Start the game" != message.BasicText && "!Start" != message.BasicText)
+            if ("Game statistics" == message.BasicText || "!Stat" == message.BasicText)
             {
-                return GetAndSaveMainMessage(message);
+                return await messageBuilder.GetStatisticMessage(message);
             }
-            messageRegister.SetState(message, UserStates.SecondLevel);
-            return GetAndSaveSelectMessage(message);
+            return GetAndSaveMainMessage(message);
+        }
+
+        private async void AddUserStatistic(User user)
+        {
+            var result = await StatisticDatabase.UserTrackExist(user);
+            if(!result)
+                await StatisticDatabase.AddUserStatistics(user);
         }
 
         private Message GetAndSaveMainMessage(Message message)
@@ -48,7 +57,6 @@ namespace NameThatTuneBot.MessageHandler
             var newMessage = messageBuilder.GetMainPage(message);
             messageHistory.AddMessage(newMessage);
             return newMessage;
-           
         }
 
         private Message GetAndSaveSelectMessage(Message newMessage, Message pastMessage = null)
@@ -58,7 +66,7 @@ namespace NameThatTuneBot.MessageHandler
             return message;
         }
 
-        private Message SecondLevel(Message message)
+        private async Task<Message> SecondLevel(Message message)
         {
             if ("Stop the game" == message.BasicText || "!Stop" == message.BasicText)
             {
@@ -68,6 +76,8 @@ namespace NameThatTuneBot.MessageHandler
             if (Regex.IsMatch(message.BasicText, @"^[1-4]$", RegexOptions.Multiline))
             {
                 var pastMessage = messageHistory.GetMessage(message.User);
+                var result = pastMessage.RightAnswer.ToString() == message.BasicText;
+                await StatisticDatabase.UpdateUserStatistics(message.User, result);
                 return GetAndSaveSelectMessage(message,pastMessage);
             }
             if (message.BasicText == "Replace")

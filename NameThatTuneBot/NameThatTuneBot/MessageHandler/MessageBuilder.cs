@@ -19,25 +19,13 @@ namespace NameThatTuneBot.MessageHandler
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
             var newMessage = (Message)message.Clone();
-            newMessage.BasicText = MessageTextPattern.GetMainPage();
+            newMessage.BasicText = MessageTextPatterns.GetMainPage();
             newMessage.MessageType = MessageType.Simple;
             newMessage.KeyboardTypes = KeyboardTypes.MainKeyboard;
             return  newMessage;
         }
 
-        private string GetAnswerText(Message newMessage, Message pastMessage)
-        {
-            if (pastMessage is null)
-            {
-                return MessageTextPattern.GetStartMessage();
-            }
-            else
-            {
-                var answer = newMessage.BasicText == pastMessage.RightAnswer.ToString();
-                return MessageTextPattern.GetResultMessage(answer);
-            }
-        }
-
+ 
         public Message GetSelectPage(Message message, Message pastMessage=null)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
@@ -52,10 +40,24 @@ namespace NameThatTuneBot.MessageHandler
             selectMessage.MusicTrack = musicTracks[rightAnswer];
             selectMessage.RightAnswer = ++rightAnswer;
             selectMessage.AdditionalText = GetAnswerText(message, pastMessage);
-            selectMessage.BasicText = MessageTextPattern.GetSelectPage(musicTracks);
+            selectMessage.BasicText = MessageTextPatterns.GetSelectPage(musicTracks);
 
             return selectMessage; 
         }
+
+        private string GetAnswerText(Message newMessage, Message pastMessage)
+        {
+            if (pastMessage is null)
+            {
+                return MessageTextPatterns.GetStartMessage();
+            }
+            else
+            {
+                var answer = newMessage.BasicText == pastMessage.RightAnswer.ToString();
+                return MessageTextPatterns.GetResultMessage(answer);
+            }
+        }
+
 
         public Message ReplaceSelectMessage(Message message)
         {
@@ -66,6 +68,26 @@ namespace NameThatTuneBot.MessageHandler
             return newMessage;
         }
 
+        public async Task<Message> GetStatisticMessage(Message message)
+        {
+            if (message == null) throw new ArgumentNullException(nameof(message));
+            var newMessage = (Message)message.Clone();
+
+            var result = await StatisticDatabase.UserTrackExist(message.User);
+            if (result)
+            {
+                var userStat = await StatisticDatabase.GetUserStatistic(message.User);
+                newMessage.BasicText =
+                    MessageTextPatterns.GetStatisticPage(userStat.WrongAnswers, userStat.CorrectAnswers);
+            }
+            else
+            {
+                newMessage.BasicText = MessageTextPatterns.GetEmptyStatisticPage();
+            }
+            newMessage.MessageType = MessageType.Simple;
+            newMessage.KeyboardTypes = KeyboardTypes.MainKeyboard;
+            return newMessage;
+        }
 
 
         private readonly IMusicTrackDatabase musicDatabase;

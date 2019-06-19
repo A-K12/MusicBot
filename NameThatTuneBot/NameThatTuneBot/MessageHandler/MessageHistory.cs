@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NameThatTuneBot.Messengers;
 using NameThatTuneBot;
+using NameThatTuneBot.Database;
+using NameThatTuneBot.Entities;
 using NameThatTuneBot.MessageHandler.Interfaces;
 
 namespace NameThatTuneBot.MessageHandler
@@ -20,7 +22,7 @@ namespace NameThatTuneBot.MessageHandler
 
         public void AddMessage(Message message)
         {
-            if (message?.User.Id == null || message.User.MessengerClass == null)
+            if (message?.User.ChatId == null || message.User.MessengerClass == null)
             {
                 throw new ArgumentNullException(nameof(message));
             }
@@ -40,7 +42,7 @@ namespace NameThatTuneBot.MessageHandler
 
         public Message GetMessage(User user)
         {
-            if(user.Id== null || user.MessengerClass == null) throw new ArgumentNullException(nameof(user));
+            if(user.ChatId== null || user.MessengerClass == null) throw new ArgumentNullException(nameof(user));
             lock (messages)
             {
                 if (messages.ContainsKey(user))
@@ -49,7 +51,7 @@ namespace NameThatTuneBot.MessageHandler
                 }
                 else
                 {
-                    throw new Exception($"The user {user.Id} is not registered");
+                    throw new Exception($"The user {user.ChatId} is not registered");
                 }
             }
         }

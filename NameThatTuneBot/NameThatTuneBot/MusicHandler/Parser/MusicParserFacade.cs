@@ -9,7 +9,7 @@ namespace NameThatTuneBot.MusicHandler.Parser
 {
     public class MusicParserFacade : IMusicParserFacade
     {
-        public MusicParserFacade(string folderPath)
+        public MusicParserFacade()
         {
             musicParser = new ResponseITunesParser();
             musicWebClient = new WebITunesClient();

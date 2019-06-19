@@ -14,6 +14,8 @@ namespace NameThatTuneBot.MusicHandler.Parser
     {
         public MusicTrack[] ParseResponseToTracks(string response)
         {
+            if (response == null) throw new ArgumentNullException(nameof(response));
+
             var musicTracks = new List<MusicTrack>();
             var block  = JObject.Parse(response);
             var results = block["results"].Where(x => x["kind"].ToString() == "song").ToArray();
@@ -26,7 +28,7 @@ namespace NameThatTuneBot.MusicHandler.Parser
                 var trackUrl = token["previewUrl"].ToString();
                 if (!IsValidUrl(trackUrl))
                 {
-                    Console.Out.WriteLine("trackUrl = {0}", trackUrl);
+                    Console.Out.WriteLine("trackUrl is invalid = {0}", trackUrl);
                     continue;
                 }
                 var track = new MusicTrack()

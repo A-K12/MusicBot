@@ -27,7 +27,7 @@ namespace NameThatTuneBot.Messengers
 
             var user = new User
             {
-                Id = arg.Channel.Id.ToString(), MessengerClass = typeof(DiscordApi)
+                ChatId = arg.Channel.Id.ToString(), MessengerClass = nameof(DiscordApi)
             };
             var message = new Message(user)
             {
@@ -59,11 +59,11 @@ namespace NameThatTuneBot.Messengers
             var textMessage = message.AdditionalText + message.BasicText;
             if (message.MessageType == MessageType.Music)
             {
-                await SendMusicMessageAsync(message.User.Id,textMessage,message.MusicTrack, message.KeyboardTypes);
+                await SendMusicMessageAsync(message.User.ChatId,textMessage,message.MusicTrack, message.KeyboardTypes);
             }
             else
             {
-                await SendSimpleMessageAsync(message.User.Id, textMessage, message.KeyboardTypes);
+                await SendSimpleMessageAsync(message.User.ChatId, textMessage, message.KeyboardTypes);
             }
         }
 
@@ -105,7 +105,7 @@ namespace NameThatTuneBot.Messengers
             }
             else
             {
-                throw  new ArgumentException("Id or text is invalid");
+                throw  new ArgumentException("Chat or text is invalid");
             }
         }
 
@@ -124,7 +124,7 @@ namespace NameThatTuneBot.Messengers
             }
             else
             {
-                throw new ArgumentException("Id or text is invalid");
+                throw new ArgumentException("Chat or text is invalid");
             }
         }
     }

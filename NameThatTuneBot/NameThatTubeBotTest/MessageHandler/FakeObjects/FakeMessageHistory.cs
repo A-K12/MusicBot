@@ -1,4 +1,5 @@
 ﻿using NameThatTuneBot;
+using NameThatTuneBot.Entities;
 using NameThatTuneBot.MessageHandler.Interfaces;
 using NameThatTuneBot.Messengers;
 

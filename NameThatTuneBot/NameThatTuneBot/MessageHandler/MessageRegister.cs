@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NameThatTuneBot.Messengers;
 using NameThatTuneBot;
+using NameThatTuneBot.Entities;
 using NameThatTuneBot.MessageHandler;
 using NameThatTuneBot.MessageHandler.Interfaces;
 
@@ -18,7 +19,7 @@ namespace NameThatTuneBot.MessageHandler
 
         public UserStates RegisterMessage(Message message)
         {
-            if (message?.User.Id == null || message.User.MessengerClass == null)
+            if (message?.User.ChatId == null || message.User.MessengerClass == null)
             {
                 throw new ArgumentNullException(nameof(message.User));
             }
@@ -39,7 +40,7 @@ namespace NameThatTuneBot.MessageHandler
 
         public void SetState(Message message, UserStates states)
         {
-            if (message?.User.Id == null || message.User.MessengerClass == null)
+            if (message?.User.ChatId == null || message.User.MessengerClass == null)
             {
                 throw new ArgumentNullException(nameof(message.User));
             }

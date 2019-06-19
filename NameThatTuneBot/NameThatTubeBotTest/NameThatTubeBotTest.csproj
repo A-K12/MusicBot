@@ -16,4 +16,16 @@
     <ProjectReference Include="..\NameThatTuneBot\NameThatTuneBot.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="MusicHandler\EmptyExample.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MusicHandler\FullExample.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MusicHandler\TestExample.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

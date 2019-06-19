@@ -4,20 +4,48 @@ using System.IO;
 using System.Text;
 using NameThatTuneBot;
 using NameThatTuneBot.Messengers;
+using Newtonsoft.Json;
+
 
 namespace MusicBot
 {
-    class Program
+    static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            var keys = GetKeys(@"D:\Keys.txt");
-            var telegram = new TelegramApi(keys["telegram"]);
-            var discord = new DiscordApi(keys["discord"]);
+            try
+            {
+                InitializeBot();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            Console.ReadKey();
+        }
+
+        private static Keys GetKeys(string path)
+        {
+            if (!File.Exists(path)) throw new FileNotFoundException(nameof(path));
+            string jsonText;
+            using (var r = new StreamReader(path))
+            {
+               jsonText= r.ReadToEnd();
+            }
+
+            return JsonConvert.DeserializeObject<Keys>(jsonText);
+        }
+
+        private static void InitializeBot()
+        {
+            var keys = GetKeys(@".\Keys.json");
+            var telegram = new TelegramApi(keys.Telegram);
+            var discord = new DiscordApi(keys.Discord);
             var bot = new NameThatTuneBot.MusicBot(new MessengerApi[] { telegram, discord });
             try
             {
-                bot.AddMusicTracksFromFile(@"D:\1.txt");
+                bot.AddMusicTracksFromFile(@".\1.txt");
             }
             catch (Exception e)
             {
@@ -26,22 +54,6 @@ namespace MusicBot
             bot.Start();
             Console.ReadKey();
             bot.Stop();
-        }
-
-        private static Dictionary<string, string> GetKeys(string path)
-        {
-            var keys = new Dictionary<string, string>();
-            using (var sr = new StreamReader(path, Encoding.Unicode))
-            {
-                var s = string.Empty;
-                while ((s = sr.ReadLine()) != null)
-                {
-                    var data = s.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    keys.Add(data[0], data[1]);
-                }
-            }
-
-            return keys;
         }
     }
 }

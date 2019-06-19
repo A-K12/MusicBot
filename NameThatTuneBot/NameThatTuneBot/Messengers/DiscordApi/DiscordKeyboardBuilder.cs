@@ -3,7 +3,7 @@ namespace NameThatTuneBot.Messengers
 {
     public static class DiscordKeyboardBuilder
     {
-        private const string MainKeyboard = "\n-----------------\n !Start - Начать игру";
+        private const string MainKeyboard = "\n-----------------\n !Start - Начать игру\n !Stat -Игровая статистика";
         private const string SelectKeyboard = "\n-----------------\n !Stop - Закончить игру";
         public static string GetKeyboard(KeyboardTypes keyboard)
         {
